@@ -18,6 +18,13 @@ The easiest way to obtain the shared object is by compiling libuv on your own.
 By default `libuv.so.1` will be installed to `/usr/local/lib`, so ensure that
 your linker looks there (or tell it using `LD_LIBRARY_PATH`).
 
+# Support
+
+Thanks to libuv, spion uses inotify on Linux, FSEvents on Darwin, kqueue on
+BSDs, ReadDirectoryChangesW on Windows, event ports on Solaris but is
+unsupported on Cygwin. For more information, consult the
+[uvbook](http://nikhilm.github.io/uvbook/filesystem.html#file-change-events).
+
 # Documentation
 
 [![GoDoc](https://godoc.org/github.com/Acconut/spion?status.svg)](https://godoc.org/github.com/Acconut/spion)
