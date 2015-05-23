@@ -24,7 +24,7 @@ uv_loop_t* bdg_new_loop() {
 
 uv_fs_event_t* bdg_new_watcher(uv_loop_t* loop, void* callback) {
 	uv_fs_event_t* handle = malloc(sizeof(uv_fs_event_t));
-	printf("%d\n", uv_fs_event_init(loop, handle));
+	uv_fs_event_init(loop, handle);
 
 	handle->data = callback;
 
