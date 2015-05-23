@@ -17,11 +17,16 @@ import (
 // a watcher it can not be restarted.
 var ErrInUse = errors.New("spion: watcher already in use")
 
+// Event represents a single event for a single file
 type Event struct {
+	// The name of the file which changed
 	Filename string
+	// The path where the changed file is or was located
 	Path     string
 }
 
+// A Watcher represents an active or stopped watcher which reports events using
+// the Event channel.
 type Watcher struct {
 	Event   chan Event
 	Stopped bool
@@ -31,7 +36,7 @@ type Watcher struct {
 	loop   *C.uv_loop_t
 }
 
-// Create a new watcher. If the paramater points to a file the single file will
+// New creates a watcher. If the paramater points to a file the single file will
 // be watched. If it points to a directory will be watched but not recursivly
 // (sub-directories are ignored).
 func New(filename string) (*Watcher, error) {
@@ -111,6 +116,9 @@ func (w *Watcher) Stop() error {
 	return nil
 }
 
+// UvError represents an error returned by libuv. This struct is returned if
+// spion is not able to translate an UvError into an equivalent error in Go's
+// standart library.
 type UvError struct {
 	Code int
 }
