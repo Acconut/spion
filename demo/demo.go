@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	watcher, err := spion.New("./", true)
+	watcher, err := spion.New("./")
 	if err != nil {
 		fmt.Println(err)
 		return
