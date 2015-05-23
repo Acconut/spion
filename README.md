@@ -1,5 +1,5 @@
 # spion
-File watcher for Golang based on libuv.
+Cross-platform file watcher for Golang based on [libuv](https://github.com/libuv/libuv).
 
 The difference to [fsnotify](https://github.com/go-fsnotify/fsnotify) is that spion
 uses libuv's file watching methods. All the platform specific code is therefore
@@ -14,7 +14,8 @@ go get github.com/Acconut/spion
 ```
 
 Running spion requires libuv 1.x to be installed, version 0.10 is not supported.
-The easiest way to obtain the shared object is by compiling libuv on your own.
+The easiest way to obtain the shared object is by
+[compiling libuv](https://github.com/libuv/libuv#build-instructions) on your own.
 By default `libuv.so.1` will be installed to `/usr/local/lib`, so ensure that
 your linker looks there (or tell it using `LD_LIBRARY_PATH`).
 
