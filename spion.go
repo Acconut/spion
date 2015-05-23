@@ -22,7 +22,7 @@ type Event struct {
 	// The name of the file which changed
 	Filename string
 	// The path where the changed file is or was located
-	Path     string
+	Path string
 }
 
 // A Watcher represents an active or stopped watcher which reports events using
