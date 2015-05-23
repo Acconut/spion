@@ -61,16 +61,8 @@ func New(filename string) (*Watcher, error) {
 	str := C.CString(filename)
 	defer C.free(unsafe.Pointer(str))
 
-	errCode := int(C.bdg_add_file(unsafe.Pointer(handle), str))
-
-	// libuv's ENOENT error is the equivalent of Go's os.ErrNotExist
-	if errCode == -2 {
-		return nil, os.ErrNotExist
-	}
-	if errCode != 0 {
-		return nil, UvError{
-			Code: errCode,
-		}
+	if err := uvErr(C.bdg_add_file(unsafe.Pointer(handle), str)); err != nil {
+		return nil, err
 	}
 
 	watcher := &Watcher{
@@ -134,6 +126,11 @@ func goCallback(ptr unsafe.Pointer, path *C.char, filename *C.char, events C.int
 }
 
 func uvErr(code C.int) error {
+	// libuv's ENOENT error is the equivalent of Go's os.ErrNotExist
+	if code == -2 {
+		return os.ErrNotExist
+	}
+
 	if code != 0 {
 		return UvError{
 			Code: int(code),
