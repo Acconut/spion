@@ -131,7 +131,7 @@ func uvErr(code C.int) error {
 		return os.ErrNotExist
 	}
 
-	if code != 0 {
+	if code < 0 {
 		return UvError{
 			Code: int(code),
 		}
