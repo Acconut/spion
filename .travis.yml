@@ -7,10 +7,14 @@ go:
   - 1.4
   - tip
 
+sudo: required
+
 before_install:
   - git clone https://github.com/libuv/libuv.git
   - cd libuv
   - ./autogen.sh
   - ./configure
   - make
-  - make install
+  - sudo make install
+  - cd ..
+  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
