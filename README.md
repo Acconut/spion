@@ -26,9 +26,17 @@ BSDs, ReadDirectoryChangesW on Windows, event ports on Solaris but is
 unsupported on Cygwin. For more information, consult the
 [uvbook](http://nikhilm.github.io/uvbook/filesystem.html#file-change-events).
 
+spion supports most of Golang's versions, ranging from 1.0 to 1.4.
+
 # Documentation
 
 [![GoDoc](https://godoc.org/github.com/Acconut/spion?status.svg)](https://godoc.org/github.com/Acconut/spion)
+
+# Testing [![Build Status](https://travis-ci.org/Acconut/spion.svg?branch=master)](https://travis-ci.org/Acconut/spion)
+
+```bash
+go test
+```
 
 # License
 
