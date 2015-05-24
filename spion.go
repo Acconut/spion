@@ -32,9 +32,12 @@ type Watcher struct {
 	Stopped bool
 	Started bool
 
-	handle *C.uv_fs_event_t
-	loop   *C.uv_loop_t
+	handle   *C.uv_fs_event_t
+	loop     *C.uv_loop_t
+	callback callbackFunc
 }
+
+type callbackFunc *func(path *C.char, filename *C.char, events C.int)
 
 // New creates a watcher. If the paramater points to a file the single file will
 // be watched. If it points to a directory will be watched but not recursivly
@@ -56,7 +59,7 @@ func New(filename string) (*Watcher, error) {
 	// Inititate a new handle for each watcher. Handles can not be reused and have
 	// to be freed after stopping. Reusing a handle causes and EINVAL (argument invalid)
 	// error to be returned.
-	handle := C.bdg_new_watcher(loop, *(*unsafe.Pointer)(unsafe.Pointer(&callback)))
+	handle := C.bdg_new_watcher(loop, unsafe.Pointer(&callback))
 
 	str := C.CString(filename)
 	defer C.free(unsafe.Pointer(str))
@@ -66,9 +69,10 @@ func New(filename string) (*Watcher, error) {
 	}
 
 	watcher := &Watcher{
-		Event:  eventChan,
-		handle: handle,
-		loop:   loop,
+		Event:    eventChan,
+		handle:   handle,
+		loop:     loop,
+		callback: &callback,
 	}
 
 	return watcher, nil
@@ -122,7 +126,7 @@ func (err UvError) Error() string {
 
 //export goCallback
 func goCallback(ptr unsafe.Pointer, path *C.char, filename *C.char, events C.int) {
-	(*(*func(path *C.char, filename *C.char, events C.int))(unsafe.Pointer(&ptr)))(path, filename, events)
+	(*(callbackFunc)(ptr))(path, filename, events)
 }
 
 func uvErr(code C.int) error {

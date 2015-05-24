@@ -1,7 +1,6 @@
 package spion
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -43,7 +42,6 @@ func TestWatcher(t *testing.T) {
 			}
 		}
 
-		fmt.Println("stopping")
 		if err := watcher.Stop(); err != nil {
 			t.Fatal(err)
 		}
